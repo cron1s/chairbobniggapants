@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 # Setze deinen Bot-Token hier ein
-TOKEN = 'MTI5MjE3ODIyODM3ODU5OTQ5Ng.GeFk8Z.I42S8WW4UUCDUjQioWJJHDfyXqRPx0sGmzFdKg'
+TOKEN = ''
 
 # Intents erstellen und definieren, auf welche Events der Bot zugreifen darf
 intents = discord.Intents.default()
