@@ -1,10 +1,11 @@
+# lib/cogs/chatbot.py
 
 import openai
 from collections import deque  # For storing shared conversation history
 
+openai.api_key = "hehehhahaha"  # Replace with your actual API key
 
-openai.api_key = "hehehhahaha"
-# Shared conversation history for testing
+# Shared conversation history
 shared_conversation_history = deque(maxlen=20)  # Store up to 20 previous messages
 
 # Default temperature for OpenAI API
@@ -25,7 +26,7 @@ def chat_with_gpt(prompt):
             "Answer all questions like a typical South Tyrolean cleaning lady."
         )}
     ]
-    
+
     # Add the shared conversation history to the messages
     messages.extend(shared_conversation_history)
 
@@ -45,27 +46,3 @@ def chat_with_gpt(prompt):
     except Exception as e:
         print(f"Error: {e}")
         return "Entschuldigung, i honn des net ganz verstan'n."
-
-def main():
-    print("Welcome to the Putzfrau chatbot! Type 'quit' to exit the conversation.")
-    
-    while True:
-        user_input = input("You: ")  # Get user input
-
-        # Exit the conversation if the user types 'quit'
-        if user_input.lower() in ["quit", "exit", "bye"]:
-            break
-
-        # If the user sends "!Reset", reset the conversation history
-        elif user_input.startswith("!Reset"):
-            shared_conversation_history.clear()  # Clear the shared conversation history
-            print("Putzfrau: Konversation zurückgesetzt.")
-            continue
-
-        # Otherwise, respond to the user's message as normal
-        else:
-            response = chat_with_gpt(user_input)
-            print(f"Putzfrau: {response}")
-
-if __name__ == "__main__":
-    main()
