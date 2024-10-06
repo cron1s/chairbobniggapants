@@ -1,2 +1,6 @@
 # ignore API Keys
 keys.json
+
+#pillipp
+main/lib/secret/discordtoken.0
+__pychache__
