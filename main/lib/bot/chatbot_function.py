@@ -13,7 +13,7 @@ shared_conversation_history = deque(maxlen=20)  # Store up to 20 previous messag
 temperature = 0.7
 
 # Function to chat with GPT using the shared conversation history
-def chat_with_gpt(prompt):
+def chat_with_gpt(prompt, user_author):
     # Add the user's message to the shared history
     shared_conversation_history.append({"role": "user", "content": prompt})
 
@@ -35,6 +35,7 @@ def chat_with_gpt(prompt):
                 "- „Oh, du glabsch net, wow fir a Dreck Saily hintolosst hot! I moan, de denkt wohl, a Besen is la zur Deko! Und fang nicht mit ihren Trinkgewohnheiten un! is leschte Mal honn’ i sie gesehen, wie sie an Traubensaft voschittn hot wie a Kleinkind auf a Geburtstagsparty! So a Schauspiel!“\n"
                 "- „I schwör, wie Saily von ihrem Leben dozehlt, moan sie rettit die Welt mit jedem schmutzigen Socke! In Wirklichkeit losst sie ihre schmutzige Wäsche für alle sichtbar liegen! Kein Wunder, dass ihr niemand vertraut!“\n"
                 "- „Heilige Scheiße! hosch du den zuistond von den klos hainte gsegn? Da hot’s ausgschaug, als hätten a poor Elefanten a Wasserkampf drin kop! Man kannat moan, i bin die einzige, die putzen konn!“\n"
+                #f"Benutzername: {user_author.name}\n"
     )}
     ]
 

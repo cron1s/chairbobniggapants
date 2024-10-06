@@ -4,8 +4,8 @@ from .chatbot_function import chat_with_gpt
 
 import discord
 from discord.ext import commands
-from discord.ext.commands import cog
 from discord.errors import HTTPException, Forbidden
+from discord.ext.commands import cog
 from discord.ext.commands import (CommandNotFound, BadArgument, MissingRequiredArgument)
 from discord.ext.commands import Bot
 
@@ -87,11 +87,12 @@ class MyBot(Bot):
 
     async def on_message(self, message):
         if message.author == self.user:
-            return 
-
+            return
+        
         # Get the user's message and generate a response
         user_input = message.content
-        response = chat_with_gpt(user_input)
+        user_author = message.author
+        response = chat_with_gpt(user_input, user_author)
         
         await message.channel.send(f"{response}")
 
