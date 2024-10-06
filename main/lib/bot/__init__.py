@@ -29,7 +29,7 @@ class Ready:
         return all([getattr(self, cog) for cog in cogs])
 
 class MyBot(Bot):
-    def __init__(self):
+    def __init__(self, discordKey):
         self.ready = False
         self.guild = None
         self.cogs_ready = Ready()
@@ -42,6 +42,8 @@ class MyBot(Bot):
             case_insensitive=True,
         )
 
+        self.TOKEN = discordKey
+
     def setup(self):
         for cog in cogs:
             self.load_extension(f"lib.cogs.{cog}")
@@ -52,8 +54,8 @@ class MyBot(Bot):
         #print(" Botsetup started")
         self.setup()
 
-        with open("./main/secrets/discord_token.0", "r", encoding="UTF-8") as tf:
-            self.TOKEN = tf.read()
+        #with open("./main/secrets/discord_token.0", "r", encoding="UTF-8") as tf:
+        # self.TOKEN = 
         
         super().run(self.TOKEN, reconnect=True)
 
@@ -93,4 +95,4 @@ class MyBot(Bot):
         
         await message.channel.send(f"{response}")
 
-bot = MyBot()
+#bot = MyBot()

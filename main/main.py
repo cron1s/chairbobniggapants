@@ -1,11 +1,11 @@
-from lib.bot import bot
+#from lib.bot import bot
+from lib.bot import MyBot
 import json
 
-openAiKey = str()
 discordKey = str()
-with open('keys.json') as file:
+with open('main/keys.json') as file:
     json = json.load(file)
-    openAiKey = json["openAiKey"]
     discordKey = json["discordKey"]
 
+bot = MyBot(discordKey)
 bot.run()
