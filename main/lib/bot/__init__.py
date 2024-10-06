@@ -96,7 +96,7 @@ class MyBot(Bot):
 
         while True:
             await super().change_presence(
-                activity=discord.Activity(type=discord.ActivityType.watching, name="in do saily zui")
+                activity=discord.Activity(type=discord.ActivityType.watching, name="in do saily ban gaggn zui")
             )
             await asyncio.sleep(20)
             await super().change_presence(
