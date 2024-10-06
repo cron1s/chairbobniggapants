@@ -1,7 +1,7 @@
 import openai
 from collections import deque  # For storing shared conversation history
 
-openai.api_key = "hehehhahaha"  # Replace with your actual API key
+openai.api_key = ""  # Replace with your actual API key
 
 # Shared conversation history
 shared_conversation_history = deque(maxlen=20)  # Store up to 20 previous messages

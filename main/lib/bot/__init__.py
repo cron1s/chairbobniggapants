@@ -1,6 +1,6 @@
 import asyncio
 from glob import glob
-import chatbot_function as chat_with_gpt
+from .chatbot_function import chat_with_gpt
 
 import discord
 from discord.ext import commands
