@@ -1,5 +1,6 @@
 import asyncio
 from glob import glob
+import chatbot_function as chat_with_gpt
 
 import discord
 from discord.ext import commands
@@ -34,13 +35,13 @@ class MyBot(Bot):
         self.cogs_ready = Ready()
 
         super().__init__(
-
             command_prefix='!',
             owner_ids=[0],
             intents=intents,
             #help_command=None,
             case_insensitive=True,
         )
+
     def setup(self):
         for cog in cogs:
             self.load_extension(f"lib.cogs.{cog}")
@@ -77,5 +78,19 @@ class MyBot(Bot):
                 activity=discord.Activity(type=discord.ActivityType.watching, name="in do saily zui")
             )
             await asyncio.sleep(20)
+            await super().change_presence(
+                activity=discord.Activity(type=discord.ActivityType.playing, name="dookiet af pilips tisch")
+            )
+            await asyncio.sleep(29)
+
+    async def on_message(self, message):
+        if message.author == self.user:
+            return 
+
+        # Get the user's message and generate a response
+        user_input = message.content
+        response = chat_with_gpt(user_input)
+        
+        await message.channel.send(f"Putzfrau: {response}")
 
 bot = MyBot()
