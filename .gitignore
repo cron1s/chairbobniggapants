@@ -1,5 +1,5 @@
 # ignore API Keys
-keys.json
+main/keys.json
 
 #pillipp
 main/lib/secret/discordtoken.0
