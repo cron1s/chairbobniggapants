@@ -91,6 +91,6 @@ class MyBot(Bot):
         user_input = message.content
         response = chat_with_gpt(user_input)
         
-        await message.channel.send(f"Putzfrau: {response}")
+        await message.channel.send(f"{response}")
 
 bot = MyBot()
