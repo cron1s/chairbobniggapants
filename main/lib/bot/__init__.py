@@ -13,6 +13,7 @@ from discord.ext.commands import Bot
 intents = discord.Intents.all()
 intents.message_content = True
 
+channel_listener_id = 1292199193380782120
 ignore_exceptions = (CommandNotFound, BadArgument, MissingRequiredArgument)
 cogs = [path.split("\\")[-1][:-3] for path in glob("./lib/cogs/*.py")]
 
@@ -89,11 +90,13 @@ class MyBot(Bot):
         if message.author == self.user:
             return
         
+        if message.channel.id == channel_listener_id:
         # Get the user's message and generate a response
-        user_input = message.content
-        user_author = message.author
-        response = chat_with_gpt(user_input, user_author)
-        
-        await message.channel.send(f"{response}")
+            user_input = message.content
+            user_author = message.author
+            response = chat_with_gpt(user_input, user_author)
+            await message.channel.send(f"{response}")
+        else:
+            pass
 
 #bot = MyBot()
