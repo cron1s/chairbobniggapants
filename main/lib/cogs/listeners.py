@@ -7,20 +7,19 @@ class Listeners(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if message.author == self.user:
+        if message.author == self.bot.user:
             return
         
-        ctx = await self.get_context(message)
+        ctx = await self.bot.get_context(message)
 
         if ctx.command is not None:
-            await self.process_commands(message)
+            await self.bot.process_commands(message)
         else:
             if message.channel.id == self.channel_id:
             # Get the user's message and generate a response
                 user_input = message.content
                 user_author = message.author.name if message.author.nick is None else message.author.nick
-                print(user_author)
-                response = self.chatbot.chat(user_input, user_author)
+                response = self.bot.chatbot.chat(user_input, user_author)
                 await message.channel.send(f"{response}")
             else:
                 pass

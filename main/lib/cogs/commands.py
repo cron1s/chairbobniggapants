@@ -22,5 +22,25 @@ class Commands(commands.Cog):
         latency = round(self.bot.latency * 1000)
         await ctx.send(f"Du bisch {latency}ms hinto mir.")
 
+    @commands.command(name="join")
+    async def join(self, ctx):
+        if ctx.author.voice is None:
+            return
+        
+        voice_channel = ctx.author.voice.channel
+
+        if ctx.voice_client is not None:
+            await ctx.voice_client.move_to(voice_channel)
+        else:
+            await voice_channel.connect()
+
+
+    @commands.command(name="leave")
+    async def leave(self, ctx):
+        if ctx.voice_client is not None:
+            await ctx.voice_client.disconnect()
+        else:
+            pass
+
 async def setup(bot):
     await bot.add_cog(Commands(bot))

@@ -32,7 +32,7 @@ class MyBot(Bot):
     def __init__(self, discordKey):
         self.ready = False
         self.guild = None
-        self.cogs = Cogs()
+        self.bot_cogs = Cogs()
         self.chatbot = Chatbot()
 
         super().__init__(
@@ -86,8 +86,8 @@ class MyBot(Bot):
         #print("Bot is starting")
         if not self.ready:
             self.ready = True
-            for cog in self.cogs.__dict__.keys():
-               self.cogs.ready_up(cog)
+            for cog in self.bot_cogs.__dict__.keys():
+               self.bot_cogs.ready_up(cog)
             print("### Bot online ###")
             print("__________________")
             print(" ")
