@@ -68,11 +68,27 @@ class MyBot(Bot):
         except asyncio.CancelledError:
             print("Cause of shutdown: Connection closed")
         finally:
+            try:
+                loop = asyncio.get_running_loop()
+            except RuntimeError:
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                    
+            if loop.is_running():
+                tasks= asyncio.all_tasks(loop)
+                for task in tasks:
+                    task.cancel()
+                loop.run_until_complete(asyncio.gather(*tasks, return_exceptions=True))
+
             loop.run_until_complete(self.close())
+            loop.close()
 
     async def start_bot(self):
         await self.setup()
         await super().start(self.TOKEN)
+    
+    async def close(self):
+        print("Shutting down...")
 
     async def on_connect(self):
         #print("Bot connected")
@@ -92,15 +108,5 @@ class MyBot(Bot):
             print("__________________")
             print(" ")
             pass
-
-        while True:
-            await super().change_presence(
-                activity=discord.Activity(type=discord.ActivityType.watching, name="in do saily ban gaggn zui")
-            )
-            await asyncio.sleep(20)
-            await super().change_presence(
-                activity=discord.Activity(type=discord.ActivityType.playing, name="dookiet af pilips tisch")
-            )
-            await asyncio.sleep(29)
 
 #bot = MyBot()

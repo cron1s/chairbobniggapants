@@ -42,5 +42,7 @@ class Commands(commands.Cog):
         else:
             pass
 
+    
+
 async def setup(bot):
     await bot.add_cog(Commands(bot))
