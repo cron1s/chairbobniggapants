@@ -3,7 +3,7 @@ from discord.ext import commands
 def is_not_pinned(message):
     return not message.pinned
 
-class Misc(commands.Cog):
+class Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -23,4 +23,4 @@ class Misc(commands.Cog):
         await ctx.send(f"Du bisch {latency}ms hinto mir.")
 
 async def setup(bot):
-    await bot.add_cog(Misc(bot))
+    await bot.add_cog(Commands(bot))
