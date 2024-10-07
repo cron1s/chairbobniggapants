@@ -3,4 +3,4 @@ main/keys.json
 
 #pillipp
 main/lib/secret/discordtoken.0
-__pychache__
+**/__pycache__
