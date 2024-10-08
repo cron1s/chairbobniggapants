@@ -10,6 +10,8 @@ from discord.ext.commands import (CommandNotFound, BadArgument, MissingRequiredA
 from discord.ext.commands import Bot
 
 
+prefix = "!"
+
 intents = discord.Intents.all()
 intents.message_content = True
 
@@ -29,14 +31,15 @@ class Cogs:
         return all([getattr(self, cog) for cog in cogs])
 
 class MyBot(Bot):
-    def __init__(self, discordKey):
+    def __init__(self, discordKey, command_prefix=prefix):
         self.ready = False
         self.guild = None
         self.bot_cogs = Cogs()
         self.chatbot = Chatbot()
+        self.command_prefix_custom = command_prefix
 
         super().__init__(
-            command_prefix='!',
+            command_prefix=self.get_command_prefix,
             owner_ids=[0],
             intents=intents,
             case_insensitive=True,
@@ -44,6 +47,9 @@ class MyBot(Bot):
 
         self.TOKEN = discordKey
 
+    def get_command_prefix(self, bot, message):
+        return self.command_prefix_custom
+    
     async def setup(self):
         print("Setup started")
         for cog in cogs:

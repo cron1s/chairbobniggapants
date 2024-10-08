@@ -40,7 +40,7 @@ class Commands(commands.Cog):
         if ctx.voice_client is not None:
             await ctx.voice_client.disconnect()
         else:
-            pass
+            await ctx.send("I bims nit in an voicechannel")
 
     
 
