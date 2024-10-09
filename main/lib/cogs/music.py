@@ -53,14 +53,33 @@ class Music(commands.Cog):
         self.is_looping = False
         self.current_url = None
 
+    async def crossfade(self, ctx, current_player, next_player, fade_duration=5):
+        fade_out_step = current_player.volume / (fade_duration * 10)
+        fade_in_step = 0.5 / (fade_duration * 10)  # Target volume for next song
+
+        next_player.volume = 0
+
+        ctx.voice_client.play(next_player, after=lambda e: self.bot.loop.create_task(self.play_next_in_queue(ctx)))
+
+        for i in range(fade_duration * 10):
+            await asyncio.sleep(0.1)
+            current_player.volume = max(current_player.volume - fade_out_step, 0)
+            next_player.volume = min(next_player.volume + fade_in_step, 0.5)
+
+        current_player.cleanup()
+        
     async def play_next_in_queue(self, ctx):
-        """Play the next song in the queue."""
         if self.queue:
             next_song = self.queue.pop(0)  # Get the next song from the queue
             self.current_url = next_song['url']
             player = next_song['player']
             await ctx.send(f"Now playing: **{player.title}**")
-            ctx.voice_client.play(player, after=lambda e: self.bot.loop.create_task(self.play_next_in_queue(ctx)))
+            
+            if ctx.voice_client.is_playing():
+                current_player = ctx.voice_client.source
+                await self.crossfade(ctx, current_player, player)
+            else:
+                ctx.voice_client.play(player, after=lambda e: self.bot.loop.create_task(self.play_next_in_queue(ctx)))
         else:
             await ctx.send("The queue is now empty.")
 
@@ -83,7 +102,6 @@ class Music(commands.Cog):
 
     @commands.command(name="queue")
     async def view_queue(self, ctx):
-        """Displays the current queue."""
         if self.queue:
             queue_list = '\n'.join([f"{i+1}. {song['player'].title}" for i, song in enumerate(self.queue)])
             await ctx.send(f"Current Queue:\n{queue_list}")
@@ -94,13 +112,12 @@ class Music(commands.Cog):
     async def stop(self, ctx):
         if ctx.voice_client is not None:
             self.is_looping = False
-            self.queue.clear()
+            self.queue.clear() 
             ctx.voice_client.stop()
             await ctx.send("Playback has been stopped and queue cleared.")
 
     @commands.command(name="skip")
     async def skip(self, ctx):
-        """Skips the current song."""
         if ctx.voice_client.is_playing():
             ctx.voice_client.stop()
             await ctx.send("Song skipped.")
