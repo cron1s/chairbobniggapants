@@ -81,7 +81,7 @@ class Music(commands.Cog):
             else:
                 ctx.voice_client.play(player, after=lambda e: self.bot.loop.create_task(self.play_next_in_queue(ctx)))
         else:
-            await ctx.send("The queue is now empty.")
+            pass
 
     @commands.command(name="play")
     async def play(self, ctx, *, url):
@@ -121,6 +121,15 @@ class Music(commands.Cog):
         if ctx.voice_client.is_playing():
             ctx.voice_client.stop()
             await ctx.send("Song skipped.")
+
+    @commands.command(name="next")
+    async def next(self, ctx):
+        if ctx.voice_client.is_playing():
+            ctx.voice_client.stop()
+            await ctx.send("Playing the next song in the queue.")
+            await self.play_next_in_queue(ctx)
+        else:
+            await ctx.send("No song is currently in queue.")
 
     @commands.command(name="pause")
     async def pause(self, ctx):
