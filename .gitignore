@@ -5,3 +5,4 @@ main/keys.json
 main/lib/secret/discordtoken.0
 **/__pycache__
 temp.txt
+output.wav

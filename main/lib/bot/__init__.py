@@ -13,6 +13,7 @@ from discord.ext.commands import Bot
 prefix = "!"
 
 intents = discord.Intents.all()
+intents.voice_states = True
 intents.message_content = True
 
 ignore_exceptions = (CommandNotFound, BadArgument, MissingRequiredArgument)
