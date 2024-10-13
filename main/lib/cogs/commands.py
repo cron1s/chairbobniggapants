@@ -1,12 +1,13 @@
 from discord.ext import commands
 
+
 def is_not_pinned(message):
     return not message.pinned
 
 class Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
+    
     @commands.command(name="hello")
     async def say_hello(self, ctx):
         await ctx.send("hallöchen")
@@ -22,25 +23,25 @@ class Commands(commands.Cog):
         latency = round(self.bot.latency * 1000)
         await ctx.send(f"Du bisch {latency}ms hinto mir.")
 
-    @commands.command(name="join")
-    async def join(self, ctx):
-        if ctx.author.voice is None:
-            return
-        
-        voice_channel = ctx.author.voice.channel
-
-        if ctx.voice_client is not None:
-            await ctx.voice_client.move_to(voice_channel)
-        else:
-            await voice_channel.connect()
-
-
-    @commands.command(name="leave")
-    async def leave(self, ctx):
-        if ctx.voice_client is not None:
-            await ctx.voice_client.disconnect()
-        else:
-            await ctx.send("I bims nit in an voicechannel")
+    #@commands.command(name="join")
+    #async def join(self, ctx):
+    #    if ctx.author.voice is None:
+    #        return
+    #    
+    #    voice_channel = ctx.author.voice.channel
+#
+    #    if ctx.voice_client is not None:
+    #        await ctx.voice_client.move_to(voice_channel)
+    #    else:
+    #        await voice_channel.connect()        
+#
+#
+    #@commands.command(name="leave")
+    #async def leave(self, ctx):
+    #    if ctx.voice_client is not None:
+    #        await ctx.voice_client.disconnect()
+    #    else:
+    #        await ctx.send("I bims nit in an voicechannel")
 
     
 

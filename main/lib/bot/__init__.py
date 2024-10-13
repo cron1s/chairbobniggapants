@@ -96,10 +96,6 @@ class MyBot(Bot):
     async def close(self):
         print("Shutting down...")
 
-    async def on_connect(self):
-        #print("Bot connected")
-        pass
-
     async def on_disconnect(self):
         #print("Bot disconnected")
         pass

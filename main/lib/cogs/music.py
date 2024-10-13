@@ -1,6 +1,7 @@
 import yt_dlp as youtube_dl
 import asyncio
 import discord
+import subprocess
 from discord.ext import commands
 
 # Configuration of Youtube_dl
@@ -98,7 +99,7 @@ class Music(commands.Cog):
                     ctx.voice_client.play(player, after=lambda e: self.bot.loop.create_task(self.play_next_in_queue(ctx)))
 
             except Exception as e:
-                await ctx.send(f"Error while playing: {e}")
+                await ctx.send(f"Error while playing: {e}") 
 
     @commands.command(name="queue")
     async def view_queue(self, ctx):
