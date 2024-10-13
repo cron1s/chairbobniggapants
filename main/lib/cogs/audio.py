@@ -105,7 +105,6 @@ class AudioCog(commands.Cog):
 
     @commands.command(name='start_audio')
     async def start_audio(self, ctx):
-        """Starte das Audio-Streaming, wenn der Bot bereits in einem Sprachkanal ist."""
         if ctx.voice_client and self.audio_task is None:
             # Starte den Audio-Loopback-Task
             self.audio_task = self.stream_audio_loopback.start(ctx.voice_client)
@@ -115,7 +114,6 @@ class AudioCog(commands.Cog):
 
     @commands.command(name='stop_audio')
     async def stop_audio(self, ctx):
-        """Stoppe das Audio-Streaming."""
         if self.audio_task is not None:
             self.audio_task.cancel()
             self.audio_task = None
@@ -125,5 +123,4 @@ class AudioCog(commands.Cog):
             await ctx.send("Das Audio-Streaming läuft nicht.")
 
 async def setup(bot):
-    """Setup-Funktion, um die Cog zu registrieren."""
     await bot.add_cog(AudioCog(bot))
