@@ -3,11 +3,12 @@ import pyaudio
 import wave
 import asyncio
 from discord.ext import commands, tasks
+from datetime import datetime
 
 # PyAudio-Konfiguration
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
-RATE = 48000
+RATE = 16000
 CHUNK = (RATE // 1000) * 20
 
 # PyAudio-Objekt erstellen
@@ -68,12 +69,13 @@ class AudioCog(commands.Cog):
 
     def open_wav_file(self):
         """Öffnet die WAV-Datei für das Schreiben von Audiodaten."""
-        wave_output_filename = "output.wav"
+        # Erstelle einen dynamischen Dateinamen basierend auf dem aktuellen Zeitstempel
+        wave_output_filename = f"output_{datetime.now().strftime('%Y%m%d_%H%M%S')}.wav"
         self.wf = wave.open(wave_output_filename, 'wb')
         self.wf.setnchannels(CHANNELS)
         self.wf.setsampwidth(audio.get_sample_size(FORMAT))
         self.wf.setframerate(RATE)
-        print("WAV-Datei geöffnet.")
+        print(f"WAV-Datei {wave_output_filename} geöffnet.")
 
     @tasks.loop(seconds=0.01)
     async def stream_audio_loopback(self, voice_client):
@@ -90,18 +92,25 @@ class AudioCog(commands.Cog):
                 if self.wf is not None:
                     self.wf.writeframes(audio_data)
 
-                # Sende den Audioblock an Discord zum Abspielen
-                if voice_client.is_playing():
-                    voice_client.stop()
-
-                # PCM-Daten abspielen
-                audio_source = discord.PCMAudio(audio_data)
-                voice_client.play(audio_source)
+                # Sende den Audioblock an Discord zum Abspielen, falls noch nichts abgespielt wird
+                if not voice_client.is_playing():
+                    # PCM-Daten abspielen
+                    audio_source = discord.PCMAudio(audio_data)
+                    voice_client.play(audio_source)
 
                 await asyncio.sleep(0.01)
         except Exception as e:
             print(f"Fehler beim Audio-Streaming: {e}")
             self.cleanup()  # Schließe die Datei bei einem Fehler
+
+    @commands.command(name='list_devices')
+    async def list_devices(self, ctx):
+        """Listet alle verfügbaren Audioeingabegeräte auf."""
+        device_info = ""
+        for i in range(audio.get_device_count()):
+            info = audio.get_device_info_by_index(i)
+            device_info += f"Index {i}: {info['name']}\n"
+        await ctx.send(f"Verfügbare Audiogeräte:\n{device_info}")
 
     @commands.command(name='start_audio')
     async def start_audio(self, ctx):
